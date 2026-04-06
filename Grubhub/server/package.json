@@ -20,7 +20,7 @@
     "cors": "^2.8.5",
     "datauri": "^2.0.0",
     "esm": "^3.2.25",
-    "express": "^4.17.3",
+    "express": "^4.22.1",
     "express-session": "^1.16.2",
     "jsonwebtoken": "^9.0.0",
     "mocha": "^10.8.2",
