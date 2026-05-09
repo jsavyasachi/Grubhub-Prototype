@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 import userRoutes from '../routes/user.js';
 import restaurantRoutes from '../routes/restaurant.js';
 import dishRoutes from '../routes/dish.js'
@@ -12,6 +14,27 @@ const app = express();
 
 //load configurations for passport
 import '../config/passport.js';
+
+// Swagger configuration
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Grubhub Prototype API',
+            version: '1.0.0',
+            description: 'API documentation for the modernized Grubhub Prototype',
+        },
+        servers: [
+            {
+                url: 'http://localhost:3001',
+            },
+        ],
+    },
+    apis: ['./routes/*.js'], // Path to the API docs
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(passport.initialize());
 app.use(cors({
@@ -24,14 +47,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-//     res.setHeader('Access-Control-Allow-Credentials', 'true');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-//     res.setHeader('Cache-Control', 'no-cache');
-//     next();
-// });
 
 app.use('/', userRoutes);
 app.use('/', restaurantRoutes);
@@ -40,4 +55,6 @@ app.use('/', orderRoutes)
 
 app.listen(3001);
 console.log("Grubhub Server listening on port 3001");
+console.log("Swagger docs available at http://localhost:3001/api-docs");
+
 export default app;

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "start": "nodemon ./src/app.js  "
+    "start": "tsx watch ./src/app.ts  "
   },
   "author": "Savyasachi Jagadeeshan",
   "license": "ISC",

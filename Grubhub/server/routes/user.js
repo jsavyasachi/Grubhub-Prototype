@@ -13,10 +13,28 @@ import {
 
 const userRouter = express.Router();
 
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Root endpoint for Grubhub Server
+ *     responses:
+ *       200:
+ *         description: Returns a string message.
+ */
 userRouter.get('/', (req, res) => {
     res.send("Grubhub Server Home");
 })
 
+/**
+ * @openapi
+ * /register:
+ *   post:
+ *     description: Register a new user
+ *     responses:
+ *       200:
+ *         description: Successfully registered user.
+ */
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
     const userDetails = req.body;
     return userHandler.registerUser(userDetails).then(result => {
