@@ -8,7 +8,7 @@ import {
     uploader
 } from "../config/cloudinary.js"
 
-const registerUser = userDetails => {
+const registerUser = (userDetails: any) => {
     return Users.findOne({
         where: {
             email: userDetails.email
@@ -33,6 +33,7 @@ const registerUser = userDetails => {
                     email: userDetails.email
                 }
             }).then(updatedUser => {
+                if (!updatedUser) throw new Error("User not found after update");
                 const token = jwt.sign({
                     id: updatedUser.id
                 }, jwtScecret.secret);
@@ -56,14 +57,14 @@ const registerUser = userDetails => {
     });
 }
 
-const loginUser = userCredentials => {
+const loginUser = (userCredentials: any) => {
     return Users.findOne({
         where: {
             email: userCredentials.email
         }
     }).then(user => {
         if (!user) {
-            return new Error("User not registered!");
+            throw new Error("User not registered!");
         }
         const token = jwt.sign({
             id: user.id
@@ -92,7 +93,7 @@ const loginUser = userCredentials => {
     });
 };
 
-const updateUser = userDetails => {
+const updateUser = (userDetails: any) => {
     return Users.findOne({
         where: {
             id: userDetails.user_id
@@ -117,9 +118,10 @@ const updateUser = userDetails => {
         }).then(() => {
             return Users.findOne({
                 where: {
-                    id: userDetails.id
+                    id: userDetails.user_id
                 }
             }).then(updatedUser => {
+                if (!updatedUser) throw new Error("User not found after update");
                 if (updatedUser.account_type === "Vendor") {
                     const restaurantDetails = {
                         id: userDetails.restaurant_id || '',
@@ -131,14 +133,14 @@ const updateUser = userDetails => {
                         user_id: userDetails.user_id
                     }
                     if (!userDetails.restaurant_id) {
-                        return restaurantHandler.createRestaurant(restaurantDetails).then(restaurant => {
+                        return restaurantHandler.createRestaurant(restaurantDetails).then((restaurant: any) => {
                             return {
                                 user: updatedUser,
                                 restaurant
                             }
                         })
                     } else {
-                        return restaurantHandler.updateRestaurant(restaurantDetails).then(restaurant => {
+                        return restaurantHandler.updateRestaurant(restaurantDetails).then((restaurant: any) => {
                             return {
                                 user: updatedUser,
                                 restaurant
@@ -155,7 +157,7 @@ const updateUser = userDetails => {
     })
 }
 
-const getUser = id => {
+const getUser = (id: any) => {
     return Users.findOne({
         where: {
             id
@@ -187,7 +189,7 @@ const getUser = id => {
     })
 }
 
-const uploadUserImage = file => {
+const uploadUserImage = (file: any) => {
     return uploader
         .upload(file, {
             transformation: [{
@@ -208,7 +210,7 @@ const uploadUserImage = file => {
         }));
 };
 
-export {
+export default {
     registerUser,
     loginUser,
     updateUser,

@@ -31,6 +31,7 @@
     "@types/node": "^25.6.2",
     "@types/passport": "^1.0.17",
     "ajv": "^8.17.1",
+    "express": "^5.2.1",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "swagger-jsdoc": "^6.2.8",

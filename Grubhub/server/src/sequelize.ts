@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize';
 import UserModel from '../models/user.js';
 import RestaurantModel from '../models/restaurant.js';
 import {
@@ -18,12 +18,12 @@ const sequelize = new Sequelize('grubhubDB', 'root', 'root1234', {
     }
 });
 
-const Users = UserModel(sequelize, Sequelize);
-const Restaurants = RestaurantModel(sequelize, Sequelize);
-const Dishes = dishModel(sequelize, Sequelize);
-const Dishes_Restaurant = dishRestaurantModel(sequelize, Sequelize);
-const Orders = OrderModel(sequelize, Sequelize);
-const Dishes_Order = dishOrderModel(sequelize, Sequelize);
+const Users = UserModel(sequelize);
+const Restaurants = RestaurantModel(sequelize);
+const Dishes = dishModel(sequelize);
+const Dishes_Restaurant = dishRestaurantModel(sequelize);
+const Orders = OrderModel(sequelize);
+const Dishes_Order = dishOrderModel(sequelize);
 
 Dishes_Restaurant.belongsTo(Dishes);
 Dishes_Restaurant.belongsTo(Restaurants);
@@ -36,7 +36,7 @@ Dishes_Order.belongsTo(Dishes);
 sequelize.sync()
     .then(() => {
         console.log('DB Created Successfully...');
-    }).catch(err => {
+    }).catch((err: any) => {
         console.log('DB Creation Error: ', err.message);
     })
 

@@ -6,7 +6,7 @@ import {
 import _ from "lodash";
 import Promise from "bluebird";
 
-const createRestaurant = restaurantDetails => {
+const createRestaurant = (restaurantDetails: any) => {
     return Restaurants.create({
         name: restaurantDetails.restaurant_name,
         cuisine: restaurantDetails.cuisine,
@@ -29,7 +29,7 @@ const createRestaurant = restaurantDetails => {
     })
 }
 
-const getRestaurant = user_id => {
+const getRestaurant = (user_id: number) => {
     return Restaurants.findOne({
         where: {
             user_id
@@ -43,12 +43,13 @@ const getRestaurant = user_id => {
     })
 }
 
-const updateRestaurant = restaurantDetails => {
+const updateRestaurant = (restaurantDetails: any) => {
     return Restaurants.findOne({
         where: {
             id: restaurantDetails.id
         }
     }).then(restaurant => {
+        if (!restaurant) throw new Error("Restaurant not found");
         return restaurant.update({
             name: restaurantDetails.restaurant_name,
             cuisine: restaurantDetails.cuisine,
@@ -61,6 +62,7 @@ const updateRestaurant = restaurantDetails => {
                     id: updatedRestaurant.id
                 }
             }).then(restaurant => {
+                if (!restaurant) throw new Error("Restaurant not found after update");
                 return {
                     id: restaurant.id,
                     name: restaurant.name,
@@ -73,7 +75,7 @@ const updateRestaurant = restaurantDetails => {
     })
 }
 
-const getRestaurantMenu = (restaurant_id) => {
+const getRestaurantMenu = (restaurant_id: number) => {
     return Restaurants.findOne({
         where: {
             id: restaurant_id
@@ -91,21 +93,21 @@ const getRestaurantMenu = (restaurant_id) => {
             }, {
                 model: Restaurants
             }]
-        }).then(allDishes => {
+        }).then((allDishes: any[]) => {
             if (!allDishes || !allDishes.length) {
                 return []
             }
-            const groupedDishes = _.chain(allDishes).map('dish').groupBy('section').map((value, key) => ({
+            const groupedDishes = _.chain(allDishes).map('dish').groupBy('section').map((value: any, key: any) => ({
                 section: key,
                 id: value[0].id,
                 dishes: value
-            })).flatten().sortBy(each => each.section.toLowerCase()).value();
+            })).flatten().sortBy((each: any) => each.section.toLowerCase()).value();
             return groupedDishes
         })
     })
 }
 
-const getRestaurantDetails = restaurant_id => {
+const getRestaurantDetails = (restaurant_id: number) => {
     return Restaurants.findOne({
         where: {
             id: restaurant_id
@@ -115,7 +117,7 @@ const getRestaurantDetails = restaurant_id => {
             throw new Error("Restaurant not found in DB!");
         }
         return getRestaurantMenu(restaurant_id).then(menu => {
-            restaurant.dataValues.menu = menu;
+            (restaurant as any).dataValues.menu = menu;
             return {
                 current_restaurant: restaurant
             };
@@ -123,16 +125,17 @@ const getRestaurantDetails = restaurant_id => {
     });
 };
 
-const updateSection = section => {
+const updateSection = (section: any) => {
     if (!section.dishes || !section.dishes.length) {
         throw new Error('No dishes in section.')
     }
-    return Promise.map(section.dishes, dish => {
+    return Promise.map(section.dishes, (dish: any) => {
         return Dishes.findOne({
             where: {
                 id: dish
             }
         }).then(currentDish => {
+            if (!currentDish) throw new Error("Dish not found");
             return currentDish.update({
                 section: section.updated_name
             })
@@ -146,11 +149,11 @@ const updateSection = section => {
     });
 }
 
-const deleteSection = section => {
+const deleteSection = (section: any) => {
     if (!section.dishes || !section.dishes.length) {
         throw new Error('No dishes in section.')
     }
-    return Promise.map(section.dishes, dish => {
+    return Promise.map(section.dishes, (dish: any) => {
         return Dishes_Restaurant.destroy({
             where: {
                 dish_id: dish
@@ -178,5 +181,4 @@ export default {
     getRestaurantDetails,
     updateSection,
     deleteSection
-
 }

@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import * as dishHandler from "../handlers/dish.js";
 const dishRouter = express.Router();
 
 
-dishRouter.post("/dish/add", (req, res) => {
+dishRouter.post("/dish/add", (req: Request, res: Response) => {
     const dish_details = req.body;
     console.log(dish_details)
     dishHandler.addDish(dish_details).then(result => {
@@ -15,8 +15,8 @@ dishRouter.post("/dish/add", (req, res) => {
     })
 })
 
-dishRouter.get("/dish/:dish_id", (req, res) => {
-    const dish_id = req.params.dish_id;
+dishRouter.get("/dish/:dish_id", (req: Request, res: Response) => {
+    const dish_id = parseInt(req.params.dish_id as string);
     dishHandler.getDishDetails(dish_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
@@ -26,7 +26,7 @@ dishRouter.get("/dish/:dish_id", (req, res) => {
     })
 })
 
-dishRouter.post("/dish/update", (req, res) => {
+dishRouter.post("/dish/update", (req: Request, res: Response) => {
     const dish_details = req.body;
     dishHandler.updateDish(dish_details).then(result => {
         res.status(200).json(result);
@@ -37,8 +37,8 @@ dishRouter.post("/dish/update", (req, res) => {
     })
 })
 
-dishRouter.delete("/dish/delete/:dish_id", (req, res) => {
-    const dish_id = req.params.dish_id;
+dishRouter.delete("/dish/delete/:dish_id", (req: Request, res: Response) => {
+    const dish_id = parseInt(req.params.dish_id as string);
     dishHandler.deleteDish(dish_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
@@ -49,8 +49,8 @@ dishRouter.delete("/dish/delete/:dish_id", (req, res) => {
     })
 })
 
-dishRouter.get("/buyer/search", (req, res) => {
-    const search_key = req.query.key;
+dishRouter.get("/buyer/search", (req: Request, res: Response) => {
+    const search_key = req.query.key as string;
     dishHandler.searchDishes(search_key).then(result => {
         res.status(200).json(result);
     }).catch(err => {

@@ -8,15 +8,15 @@ import {
 import _ from "lodash";
 import Promise from "bluebird"
 
-const getOrdersByRestaurant = restaurant_id => {
+const getOrdersByRestaurant = (restaurant_id: number) => {
     return Orders.findAll({
         where: {
             restaurant_id
         }
     }).then(allOrders => {
         var current_orders, past_orders;
-        current_orders = allOrders.filter(order => ["NEW", "PREPARING", "READY"].includes(order.status))
-        past_orders = allOrders.filter(order => ["DELIVERED", "CANCELED"].includes(order.status))
+        current_orders = allOrders.filter(order => ["NEW", "PREPARING", "READY"].includes(order.status || ""))
+        past_orders = allOrders.filter(order => ["DELIVERED", "CANCELED"].includes(order.status || ""))
         return {
             current_orders,
             past_orders
@@ -24,21 +24,22 @@ const getOrdersByRestaurant = restaurant_id => {
     })
 }
 
-const updateOrder = order_details => {
+const updateOrder = (order_details: any) => {
     return Orders.findOne({
         where: {
             id: order_details.id
         }
     }).then(order => {
+        if (!order) throw new Error("Order not found");
         return order.update({
             status: order_details.status
         }).then(() => {
-            return getOrdersByRestaurant(order.restaurant_id)
+            return getOrdersByRestaurant(order.restaurant_id as number)
         })
     })
 }
 
-const getOrderDetails = (order_id) => {
+const getOrderDetails = (order_id: number) => {
     return Orders.findOne({
         where: {
             id: order_id
@@ -50,7 +51,7 @@ const getOrderDetails = (order_id) => {
                 model: Restaurants
             }
         ]
-    }).then(order => {
+    }).then((order: any) => {
         if (!order) {
             throw new Error("Order not found in DB!")
         }
@@ -61,22 +62,22 @@ const getOrderDetails = (order_id) => {
             include: [{
                 model: Dishes
             }]
-        }).then(allDishes => {
+        }).then((allDishes: any[]) => {
             if (!allDishes) {
                 throw new Error("Order does not have dishes! Weird...")
             }
-            let dishes = []
+            let dishes: any[] = []
             if (allDishes && allDishes.length) {
                 dishes = allDishes.map(eachDish => {
                     const {
                         id,
                         name,
-                        amount
+                        price
                     } = eachDish.dish;
                     return {
                         id,
                         name,
-                        amount,
+                        amount: price,
                         quantity: eachDish.quantity
                     }
                 })
@@ -95,7 +96,7 @@ const getOrderDetails = (order_id) => {
     })
 }
 
-const getOrdersByBuyer = user_id => {
+const getOrdersByBuyer = (user_id: number) => {
     return Orders.findAll({
         where: {
             user_id
@@ -103,8 +104,8 @@ const getOrdersByBuyer = user_id => {
     }).then(allOrders => {
         var current_orders = [],
             past_orders = []
-        current_orders = allOrders.filter(order => ["NEW", "PREPARING", "READY"].includes(order.status))
-        past_orders = allOrders.filter(order => ["DELIVERED", "CANCELLED"].includes(order.status));
+        current_orders = allOrders.filter(order => ["NEW", "PREPARING", "READY"].includes(order.status || ""))
+        past_orders = allOrders.filter(order => ["DELIVERED", "CANCELLED"].includes(order.status || ""));
         return {
             current_orders,
             past_orders
@@ -112,14 +113,14 @@ const getOrdersByBuyer = user_id => {
     })
 }
 
-const createOrder = order_details => {
+const createOrder = (order_details: any) => {
     return Orders.create({
         user_id: order_details.user_id,
         restaurant_id: order_details.restaurant_id,
         amount: order_details.total_amount,
         status: "NEW"
     }).then(order => {
-        return Promise.map(order_details.cart, dish => {
+        return Promise.map(order_details.cart, (dish: any) => {
             return Dishes_Order.create({
                 dish_id: dish.id,
                 order_id: order.id,

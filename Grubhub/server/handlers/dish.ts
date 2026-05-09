@@ -7,7 +7,7 @@ import Sequelize from "sequelize";
 import _ from "lodash";
 import Promise from "bluebird"
 
-const addDish = dish_details => {
+const addDish = (dish_details: any) => {
     const {
         name,
         price,
@@ -33,7 +33,7 @@ const addDish = dish_details => {
         })
     })
 };
-const getDishDetails = dish_id => {
+const getDishDetails = (dish_id: number) => {
     return Dishes.findOne({
         where: {
             id: dish_id
@@ -46,7 +46,7 @@ const getDishDetails = dish_id => {
     })
 };
 
-const updateDish = (dish_details) => {
+const updateDish = (dish_details: any) => {
     console.log("updateDish:", dish_details)
     return Dishes.findOne({
         where: {
@@ -83,7 +83,7 @@ const updateDish = (dish_details) => {
         })
     })
 };
-const deleteDish = dish_id => {
+const deleteDish = (dish_id: number) => {
     return Dishes_Restaurant.destroy({
         where: {
             dish_id
@@ -108,7 +108,7 @@ const deleteDish = dish_id => {
 };
 
 const Op = Sequelize.Op;
-const searchDishes = search_key => {
+const searchDishes = (search_key: string) => {
     search_key = `%${search_key}%`;
     return Dishes.findAll({
         where: {
@@ -117,7 +117,7 @@ const searchDishes = search_key => {
             }
         }
     }).then(searchDishes => {
-        return Promise.map(searchDishes, dish => {
+        return Promise.map(searchDishes, (dish: any) => {
             return Dishes_Restaurant.findOne({
                 where: {
                     dish_id: dish.id
@@ -125,7 +125,7 @@ const searchDishes = search_key => {
                 include: [{
                     model: Restaurants
                 }]
-            }).then(dish_restaurant => {
+            }).then((dish_restaurant: any) => {
                 if (dish_restaurant) {
                     return dish_restaurant.restaurant;
                 }

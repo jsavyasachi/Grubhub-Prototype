@@ -10,11 +10,11 @@ import { Strategy as JWTStrategy, ExtractJwt as ExtractJWT } from 'passport-jwt'
 
 const SALT_ROUND = 12;
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: any, done) => {
     done(null, user);
 });
 
-passport.deserializeUser((user, done) => {
+passport.deserializeUser((user: any, done) => {
     done(null, user);
 });
 
@@ -36,7 +36,7 @@ passport.use("register", new localStrategy({
                         Users.create({
                             email: username,
                             password: hashPassword
-                        }).then(user => {
+                        } as any).then(() => {
                             return done(null, true);
                         });
                     });

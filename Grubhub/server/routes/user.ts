@@ -1,6 +1,6 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import passport from 'passport';
-import * as userHandler from '../handlers/user.js'
+import userHandler from '../handlers/user.js'
 import {
     multerUploads,
     dataUri
@@ -8,8 +8,6 @@ import {
 import {
     cloudinaryConfig
 } from '../config/cloudinary.js'
-
-
 
 const userRouter = express.Router();
 
@@ -22,7 +20,7 @@ const userRouter = express.Router();
  *       200:
  *         description: Returns a string message.
  */
-userRouter.get('/', (req, res) => {
+userRouter.get('/', (req: Request, res: Response) => {
     res.send("Grubhub Server Home");
 })
 
@@ -35,7 +33,7 @@ userRouter.get('/', (req, res) => {
  *       200:
  *         description: Successfully registered user.
  */
-userRouter.post('/register', passport.authenticate('register'), (req, res) => {
+userRouter.post('/register', passport.authenticate('register'), (req: Request, res: Response) => {
     const userDetails = req.body;
     return userHandler.registerUser(userDetails).then(result => {
         res.cookie('grubhubCookie', result.token, {
@@ -48,7 +46,7 @@ userRouter.post('/register', passport.authenticate('register'), (req, res) => {
     });
 });
 
-userRouter.post('/login', passport.authenticate('login'), (req, res) => {
+userRouter.post('/login', passport.authenticate('login'), (req: Request, res: Response) => {
     const userCredentials = req.body;
     console.log(req.body);
     return userHandler.loginUser(userCredentials).then(result => {
@@ -62,7 +60,7 @@ userRouter.post('/login', passport.authenticate('login'), (req, res) => {
     });
 });
 
-userRouter.put("/userUpdate/:user_id", passport.authenticate("jwt"), (req, res) => {
+userRouter.put("/userUpdate/:user_id", passport.authenticate("jwt"), (req: Request, res: Response) => {
     const userDetails = req.body;
     userDetails.user_id = req.params.user_id;
     return userHandler.updateUser(userDetails).then(result => {
@@ -73,7 +71,7 @@ userRouter.put("/userUpdate/:user_id", passport.authenticate("jwt"), (req, res) 
     })
 })
 
-userRouter.get("/user/:user_id", (req, res) => {
+userRouter.get("/user/:user_id", (req: Request, res: Response) => {
     userHandler.getUser(req.params.user_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
@@ -81,12 +79,12 @@ userRouter.get("/user/:user_id", (req, res) => {
     });
 });
 
-userRouter.post("/upload/image", multerUploads, cloudinaryConfig, (req, res) => {
-    let file;
+userRouter.post("/upload/image", multerUploads, cloudinaryConfig, (req: Request, res: Response) => {
+    let file: any;
     if (req.file) {
         file = dataUri(req).content;
     } else {
-        res.status(400).json({
+        return res.status(400).json({
             message: 'File not uploaded!'
         });
     }
