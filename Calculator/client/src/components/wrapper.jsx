@@ -1,73 +1,53 @@
-import React, { Component } from "react";
-
+import React, { useState } from "react";
 import Title from "./title";
 import Display from "./display";
 import Buttons from "./buttons";
-
 import axios from "axios";
 
-class Wrapper extends Component {
-  state = {
-    disp: ""
-  };
+const Wrapper = () => {
+  const [disp, setDisp] = useState("");
 
-  onClick = button => {
+  const onClick = async (button) => {
     if (button === "=") {
-      this.calculate();
+      await calculate();
     } else if (button === "C") {
-      this.reset();
+      reset();
+    } else if (button === "CE") {
+      setDisp(prev => prev.slice(0, -1));
     } else {
-      this.setState({
-        disp: this.state.disp + button
-      });
+      setDisp(prev => prev + button);
     }
   };
 
-  calculate = () => {
+  const calculate = async () => {
     try {
-      let expr = this.state.disp;
-      return axios
-        .post("http://localhost:3001/calculate", { expr })
-        .then(response => {
-          if (response.status === 200) {
-            this.setState({
-              // eslint-disable-next-line
-              disp: response.data
-            });
-          } else {
-            return "ERROR";
-          }
-        })
-        .catch(error => {
-          return "ERROR";
-        });
+      const response = await axios.post("http://localhost:3001/calculate", { expr: disp });
+      if (response.status === 200) {
+        setDisp(String(response.data));
+      } else {
+        setDisp("ERROR");
+      }
     } catch (e) {
-      this.setState({
-        disp: "Error in React"
-      });
+      setDisp("Error in React");
     }
   };
 
-  reset = () => {
-    this.setState({
-      disp: ""
-    });
+  const reset = () => {
+    setDisp("");
   };
 
-  render() {
-    const calcStyle = {
-      maxWidth: "22rem",
-      marginLeft: "33%",
-      marginTop: "5%"
-    };
-    return (
-      <div style={calcStyle}>
-        <Title></Title>
-        <Display disp={this.state.disp} />
-        <Buttons onClick={this.onClick} />
-      </div>
-    );
-  }
-}
+  const calcStyle = {
+    maxWidth: "22rem",
+    margin: "5% auto"
+  };
+
+  return (
+    <div style={calcStyle}>
+      <Title />
+      <Display disp={disp} />
+      <Buttons onClick={onClick} />
+    </div>
+  );
+};
 
 export default Wrapper;

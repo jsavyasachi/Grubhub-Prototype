@@ -1,14 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Display extends Component {
-  render() {
-    let { disp } = this.props;
-    return (
-      <div>
-        <p className="border border-primary w-75 p-4">{disp}</p>
-      </div>
-    );
-  }
-}
+const Display = ({ disp }) => {
+  return (
+    <div className="input-group">
+      <input
+        type="text"
+        className="form-control text-right"
+        value={disp}
+        readOnly
+      />
+    </div>
+  );
+};
 
 export default Display;
