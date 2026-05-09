@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/Grubhub/server"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/Grubhub/client"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/Calculator/server"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/Calculator/client"
+    schedule:
+      interval: "weekly"
