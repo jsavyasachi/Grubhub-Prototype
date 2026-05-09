@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { buyerActions } from "../../js/actions/index";
 import Navigbar from "../Navbar/Navbar";
 
 const Search = (props) => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = e => {
     setSearch(e.target.value);
@@ -16,7 +18,7 @@ const Search = (props) => {
     const payload = {
       search: search
     };
-    dispatch(buyerActions.getResults(payload, props));
+    dispatch(buyerActions.getResults(payload, { ...props, history: { push: navigate } }));
   };
 
   return (
