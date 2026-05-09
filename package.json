@@ -12,10 +12,14 @@
     "start:grubhub-client": "npm start --workspace=grubhub-client",
     "start:calculator-server": "npm start --workspace=calculator-server",
     "start:calculator-client": "npm start --workspace=calculator-client",
-    "test:all": "npm test --workspaces"
+    "test:all": "npm test --workspaces",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "ajv": "^8.17.1"
+    "@commitlint/cli": "^21.0.0",
+    "@commitlint/config-conventional": "^21.0.0",
+    "ajv": "^8.17.1",
+    "husky": "^9.1.7"
   },
   "overrides": {
     "@tootallnate/once": "^3.0.1",
