@@ -1,0 +1,17 @@
+{
+  "name": "grubhub-prototype",
+  "private": true,
+  "workspaces": [
+    "Grubhub/client",
+    "Grubhub/server",
+    "Calculator/client",
+    "Calculator/server"
+  ],
+  "scripts": {
+    "start:grubhub-server": "npm start --workspace=grubhub-server",
+    "start:grubhub-client": "npm start --workspace=grubhub-client",
+    "start:calculator-server": "npm start --workspace=calculator-server",
+    "start:calculator-client": "npm start --workspace=calculator-client",
+    "test:all": "npm test --workspaces"
+  }
+}

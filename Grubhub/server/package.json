@@ -1,5 +1,5 @@
 {
-  "name": "grubhub-backend",
+  "name": "grubhub-server",
   "version": "1.0.0",
   "description": "API for Grubhub built on express.js",
   "main": "app.js",
