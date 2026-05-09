@@ -1,12 +1,12 @@
 import Sequelize from 'sequelize';
-import UserModel from '../models/user';
-import RestaurantModel from '../models/restaurant';
+import UserModel from '../models/user.js';
+import RestaurantModel from '../models/restaurant.js';
 import {
     dishModel,
     dishRestaurantModel,
     dishOrderModel
-} from "../models/dish";
-import OrderModel from "../models/Order"
+} from "../models/dish.js";
+import OrderModel from "../models/order.js"
 
 const sequelize = new Sequelize('grubhubDB', 'root', 'root1234', {
     host: 'localhost',

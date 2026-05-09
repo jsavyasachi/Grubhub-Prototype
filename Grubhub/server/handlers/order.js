@@ -4,7 +4,7 @@ import {
     Restaurants,
     Dishes,
     Dishes_Order
-} from "../src/sequelize";
+} from "../src/sequelize.js";
 import _ from "lodash";
 import Promise from "bluebird"
 

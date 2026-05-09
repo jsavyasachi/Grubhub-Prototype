@@ -1,5 +1,5 @@
 import express from 'express';
-import * as dishHandler from "../handlers/dish";
+import * as dishHandler from "../handlers/dish.js";
 const dishRouter = express.Router();
 
 

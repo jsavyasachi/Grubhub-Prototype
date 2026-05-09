@@ -1,13 +1,13 @@
 import express from 'express';
 import passport from 'passport';
-import * as userHandler from '../handlers/user'
+import * as userHandler from '../handlers/user.js'
 import {
     multerUploads,
     dataUri
-} from '../config/multer';
+} from '../config/multer.js';
 import {
     cloudinaryConfig
-} from '../config/cloudinary'
+} from '../config/cloudinary.js'
 
 
 

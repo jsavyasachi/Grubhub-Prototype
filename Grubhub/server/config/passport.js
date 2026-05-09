@@ -1,13 +1,12 @@
 import bcrypt from 'bcrypt';
-import jwtSecret from './jwtConfig';
+import jwtSecret from './jwtConfig.js';
 import {
     Users
-} from '../src/sequelize';
+} from '../src/sequelize.js';
 
-const passport = require('passport'),
-    localStrategy = require('passport-local').Strategy,
-    JWTStrategy = require('passport-jwt').Strategy,
-    ExtractJWT = require('passport-jwt').ExtractJwt;
+import passport from 'passport';
+import { Strategy as localStrategy } from 'passport-local';
+import { Strategy as JWTStrategy, ExtractJwt as ExtractJWT } from 'passport-jwt';
 
 const SALT_ROUND = 12;
 

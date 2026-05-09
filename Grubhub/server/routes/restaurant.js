@@ -1,5 +1,5 @@
 import express from 'express';
-import restaurantHandler from '../handlers/restaurant';
+import restaurantHandler from '../handlers/restaurant.js';
 
 const restaurantRouter = express.Router();
 

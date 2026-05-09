@@ -2,7 +2,7 @@ import {
     Restaurants,
     Dishes_Restaurant,
     Dishes
-} from "../src/sequelize";
+} from "../src/sequelize.js";
 import _ from "lodash";
 import Promise from "bluebird";
 

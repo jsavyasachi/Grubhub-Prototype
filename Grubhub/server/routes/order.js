@@ -1,5 +1,5 @@
 import express from "express";
-import * as orderHandler from "../handlers/order"
+import * as orderHandler from "../handlers/order.js"
 const orderRouter = express.Router();
 
 orderRouter.get("/order/restaurant/:restaurant_id", (req, res) => {

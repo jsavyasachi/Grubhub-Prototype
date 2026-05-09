@@ -1,12 +1,12 @@
 import {
     Users,
-} from '../src/sequelize';
-import jwtScecret from '../config/jwtConfig'
+} from '../src/sequelize.js';
+import jwtScecret from '../config/jwtConfig.js'
 import jwt from 'jsonwebtoken';
-import restaurantHandler from "./restaurant";
+import restaurantHandler from "./restaurant.js";
 import {
     uploader
-} from "../config/cloudinary"
+} from "../config/cloudinary.js"
 
 const registerUser = userDetails => {
     return Users.findOne({

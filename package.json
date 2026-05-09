@@ -13,5 +13,8 @@
     "start:calculator-server": "npm start --workspace=calculator-server",
     "start:calculator-client": "npm start --workspace=calculator-client",
     "test:all": "npm test --workspaces"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0"
   }
 }
