@@ -35,6 +35,6 @@
     "serialize-javascript": "^7.0.5"
   },
   "devDependencies": {
-    "mocha": "^11.3.0"
+    "mocha": "^11.7.5"
   }
 }
