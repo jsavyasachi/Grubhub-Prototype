@@ -15,7 +15,7 @@ A modernized restaurant delivery platform prototype. Originally built as an acad
 - **Monorepo Architecture**: Managed via NPM Workspaces.
 - **Native ESM**: Backend fully migrated to native Node.js ESM.
 - **Vite Build**: High-performance frontend build pipeline.
-- **Security**: Aggressively patched to zero vulnerabilities with active Dependabot monitoring.
+- **Security**: Patched where non-breaking dependency updates are available; legacy transitive advisories are tracked separately.
 
 ## Getting Started
 
