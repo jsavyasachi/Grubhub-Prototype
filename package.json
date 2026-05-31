@@ -49,7 +49,9 @@
     "webpack-dev-server": "^5.2.3",
     "mocha": {
       "serialize-javascript": "7.0.5"
-    }
+    },
+    "uuid": "11.1.1",
+    "diff": "8.0.3"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
