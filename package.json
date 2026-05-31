@@ -45,8 +45,11 @@
     "@tootallnate/once": "^3.0.1",
     "nth-check": "^2.1.1",
     "postcss": "^8.5.14",
-    "serialize-javascript": "^7.0.5",
-    "webpack-dev-server": "^5.2.3"
+    "serialize-javascript": "7.0.5",
+    "webpack-dev-server": "^5.2.3",
+    "mocha": {
+      "serialize-javascript": "7.0.5"
+    }
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
